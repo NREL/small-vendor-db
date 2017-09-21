@@ -1,0 +1,265 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.vendor_or_subcontractor_registra.field_address
+    - field.field.node.vendor_or_subcontractor_registra.field_business_type
+    - field.field.node.vendor_or_subcontractor_registra.field_certification_types
+    - field.field.node.vendor_or_subcontractor_registra.field_comments
+    - field.field.node.vendor_or_subcontractor_registra.field_edit_token
+    - field.field.node.vendor_or_subcontractor_registra.field_email
+    - field.field.node.vendor_or_subcontractor_registra.field_external_id
+    - field.field.node.vendor_or_subcontractor_registra.field_fax
+    - field.field.node.vendor_or_subcontractor_registra.field_first_name
+    - field.field.node.vendor_or_subcontractor_registra.field_hear_about_nrel
+    - field.field.node.vendor_or_subcontractor_registra.field_intro_markup
+    - field.field.node.vendor_or_subcontractor_registra.field_keywords
+    - field.field.node.vendor_or_subcontractor_registra.field_last_edited
+    - field.field.node.vendor_or_subcontractor_registra.field_last_name
+    - field.field.node.vendor_or_subcontractor_registra.field_naics_code_1
+    - field.field.node.vendor_or_subcontractor_registra.field_naics_code_2
+    - field.field.node.vendor_or_subcontractor_registra.field_naics_code_3
+    - field.field.node.vendor_or_subcontractor_registra.field_naics_markup
+    - field.field.node.vendor_or_subcontractor_registra.field_phone
+    - field.field.node.vendor_or_subcontractor_registra.field_products
+    - field.field.node.vendor_or_subcontractor_registra.field_reminder_sent
+    - field.field.node.vendor_or_subcontractor_registra.field_sam
+    - field.field.node.vendor_or_subcontractor_registra.field_website
+    - node.type.vendor_or_subcontractor_registra
+  module:
+    - address
+    - field_formatter_class
+    - field_group
+    - link
+    - options
+    - panelizer
+    - telephone
+    - user
+third_party_settings:
+  panelizer:
+    enable: false
+    custom: false
+    allow: false
+    default: default
+  field_group:
+    group_business_information:
+      children:
+        - field_address
+      parent_name: ''
+      weight: 1
+      format_type: html_element
+      format_settings:
+        id: ''
+        classes: group-wrapper
+        element: div
+        show_label: true
+        label_element: h2
+        attributes: ''
+        effect: none
+        speed: fast
+      label: 'Business Information'
+    group_contact_information:
+      children:
+        - field_first_name
+        - field_last_name
+        - field_phone
+        - field_fax
+        - field_email
+        - field_website
+      parent_name: ''
+      weight: 2
+      format_type: html_element
+      format_settings:
+        id: ''
+        classes: group-wrapper
+        element: div
+        show_label: true
+        label_element: h2
+        attributes: ''
+        effect: none
+        speed: fast
+      label: 'Contact Information'
+    group_naics_designation:
+      children:
+        - field_naics_code_1
+        - field_naics_code_2
+        - field_naics_code_3
+        - field_keywords
+      parent_name: ''
+      weight: 6
+      format_type: html_element
+      format_settings:
+        id: ''
+        classes: group-wrapper
+        element: div
+        show_label: true
+        label_element: h2
+        attributes: ''
+        effect: none
+        speed: fast
+      label: 'NAICS Designation'
+id: node.vendor_or_subcontractor_registra.default
+targetEntityType: node
+bundle: vendor_or_subcontractor_registra
+mode: default
+content:
+  field_address:
+    weight: 1
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: address_default
+    region: content
+  field_business_type:
+    weight: 3
+    label: above
+    settings: {  }
+    third_party_settings:
+      field_formatter_class:
+        class: ''
+    type: list_default
+    region: content
+  field_certification_types:
+    weight: 4
+    label: above
+    settings: {  }
+    third_party_settings:
+      field_formatter_class:
+        class: ''
+    type: list_default
+    region: content
+  field_comments:
+    weight: 9
+    label: above
+    settings: {  }
+    third_party_settings:
+      field_formatter_class:
+        class: field-section
+    type: basic_string
+    region: content
+  field_email:
+    weight: 9
+    label: inline
+    settings: {  }
+    third_party_settings: {  }
+    type: email_mailto
+    region: content
+  field_fax:
+    weight: 8
+    label: inline
+    settings:
+      title: ''
+    third_party_settings: {  }
+    type: telephone_link
+    region: content
+  field_first_name:
+    weight: 5
+    label: inline
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_hear_about_nrel:
+    weight: 8
+    label: above
+    settings: {  }
+    third_party_settings:
+      field_formatter_class:
+        class: field-section
+    type: basic_string
+    region: content
+  field_keywords:
+    weight: 11
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_last_name:
+    weight: 6
+    label: inline
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_naics_code_1:
+    weight: 6
+    label: inline
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_naics_code_2:
+    weight: 7
+    label: inline
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_naics_code_3:
+    weight: 8
+    label: inline
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_phone:
+    weight: 7
+    label: inline
+    settings:
+      title: ''
+    third_party_settings: {  }
+    type: telephone_link
+    region: content
+  field_products:
+    weight: 7
+    label: above
+    settings: {  }
+    third_party_settings:
+      field_formatter_class:
+        class: field-section
+    type: list_default
+    region: content
+  field_sam:
+    weight: 5
+    label: inline
+    settings:
+      format: yes-no
+      format_custom_true: ''
+      format_custom_false: ''
+    third_party_settings:
+      field_formatter_class:
+        class: ''
+    type: boolean
+    region: content
+  field_website:
+    weight: 10
+    label: inline
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    type: link
+    region: content
+  workbench_moderation_control:
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  field_edit_token: true
+  field_external_id: true
+  field_intro_markup: true
+  field_last_edited: true
+  field_naics_markup: true
+  field_reminder_sent: true
+  links: true

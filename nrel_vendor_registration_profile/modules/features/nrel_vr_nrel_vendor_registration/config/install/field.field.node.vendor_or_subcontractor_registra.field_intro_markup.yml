@@ -1,0 +1,24 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_intro_markup
+    - node.type.vendor_or_subcontractor_registra
+  module:
+    - markup
+id: node.vendor_or_subcontractor_registra.field_intro_markup
+field_name: field_intro_markup
+entity_type: node
+bundle: vendor_or_subcontractor_registra
+label: 'Intro Markup'
+description: ''
+required: false
+translatable: false
+default_value:
+  - {  }
+default_value_callback: ''
+settings:
+  markup:
+    value: "<p class=\"lead\">NREL is always looking for new vendors and subcontractors who can meet the lab's continuing requirements for goods, services, research and development, construction, and other laboratory needs.</p>\r\n\r\n<p>NREL has a strong&nbsp;<a href=\"https://apps1.nrel.gov/workingwithus/small-business.html\">commitment to small business</a>&nbsp;and especially invites participation by small, disadvantaged, women-owned, HUBZone, veteran-owned, and disabled veteran-owned businesses. Also important to the laboratory are partnerships with suppliers that result in creative collaboration.</p>\r\n\r\n<p>NREL's supplier management strategy is to work with businesses that improve the laboratory's competitive position and support the laboratory's mission. Part of that mission is to maintain an effective program ensuring diversity in our operations. A comprehensive program of outreach and evaluation maintains diversity in our procurement, employment, and technical transfer efforts. NREL's diversity efforts are further supported by business development efforts through effective use of technical conferences, industry trade fairs, and minority business exchanges.</p>\r\n\r\n<p>To register to become an NREL vendor or subcontractor, complete the on-line registration form below. If you've already registered and need to update your information or if you have any questions, please contact:</p>\r\n\r\n<p><a href=\"mailto:smallbusinesspartnerships@nrel.gov\">Rexann Dunn</a><br />\r\nSmall Business Program Lead<br />\r\nNational Renewable Energy Laboratory<br />\r\n15013 Denver West Parkway MS 5203<br />\r\nGolden, Colorado 80401-3305<br />\r\nTelephone: 303-275-4322</p>\r\n"
+    format: full_html
+field_type: markup

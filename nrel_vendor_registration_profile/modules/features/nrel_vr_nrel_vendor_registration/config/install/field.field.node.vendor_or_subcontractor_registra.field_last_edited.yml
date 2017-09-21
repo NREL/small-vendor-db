@@ -1,0 +1,20 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_last_edited
+    - node.type.vendor_or_subcontractor_registra
+  module:
+    - datetime
+id: node.vendor_or_subcontractor_registra.field_last_edited
+field_name: field_last_edited
+entity_type: node
+bundle: vendor_or_subcontractor_registra
+label: 'Last Edited'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

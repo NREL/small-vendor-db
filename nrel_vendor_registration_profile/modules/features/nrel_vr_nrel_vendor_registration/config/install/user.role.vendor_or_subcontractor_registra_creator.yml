@@ -1,0 +1,7 @@
+langcode: en
+status: true
+dependencies: {  }
+id: vendor_or_subcontractor_registra_creator
+label: 'Vendor or Subcontractor Registration creator'
+weight: 10
+is_admin: null

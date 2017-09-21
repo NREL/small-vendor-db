@@ -1,0 +1,23 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+    - workbench_moderation
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+  workbench_moderation:
+    enabled: true
+    allowed_moderation_states:
+      - published
+      - needs_review
+    default_moderation_state: needs_review
+name: 'Vendor or Subcontractor Registration'
+type: vendor_or_subcontractor_registra
+description: 'Registration form for potential vendors or subcontractors. '
+help: ''
+new_revision: true
+preview_mode: 0
+display_submitted: false

@@ -1,0 +1,14 @@
+{
+  "name": "drupal/nrel_vr_nrel_vendor_registration",
+  "type": "drupal-module",
+  "description": "Custom functionality for NREL Vendor Registration",
+  "keywords": ["Drupal"],
+  "license": "GPL-2.0+",
+  "homepage": "https://www.drupal.org/project/nrel_vr_nrel_vendor_registration",
+  "minimum-stability": "dev",
+  "support": {
+    "issues": "https://www.drupal.org/project/issues/nrel_vr_nrel_vendor_registration",
+    "source": "http://cgit.drupalcode.org/nrel_vr_nrel_vendor_registration"
+  },
+  "require": { }
+}

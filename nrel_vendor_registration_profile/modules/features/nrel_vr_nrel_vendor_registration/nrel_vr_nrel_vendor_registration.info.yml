@@ -1,0 +1,30 @@
+name: 'NREL Vendor Registration Content Types'
+type: module
+description: 'Custom functionality for NREL Vendor Registration'
+core: 8.x
+package: 'NREL Vendor Registration Profile'
+dependencies:
+  - address
+  - block
+  - conditional_fields
+  - datetime
+  - default_content
+  - field
+  - field_formatter_class
+  - field_group
+  - help
+  - link
+  - markup
+  - menu_ui
+  - node
+  - options
+  - panelizer
+  - panels
+  - path
+  - pathauto
+  - system
+  - telephone
+  - user
+  - views
+  - workbench_moderation
+version: 8.x-1.0

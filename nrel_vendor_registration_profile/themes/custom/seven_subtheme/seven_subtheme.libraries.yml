@@ -1,0 +1,6 @@
+custom-styling:
+  css:
+    theme:
+      css/style.css: {}
+  dependencies:
+    - system/admin

@@ -1,0 +1,64 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.vendor_or_subcontractor_registra.field_address
+    - field.field.node.vendor_or_subcontractor_registra.field_business_type
+    - field.field.node.vendor_or_subcontractor_registra.field_certification_types
+    - field.field.node.vendor_or_subcontractor_registra.field_comments
+    - field.field.node.vendor_or_subcontractor_registra.field_edit_token
+    - field.field.node.vendor_or_subcontractor_registra.field_email
+    - field.field.node.vendor_or_subcontractor_registra.field_external_id
+    - field.field.node.vendor_or_subcontractor_registra.field_fax
+    - field.field.node.vendor_or_subcontractor_registra.field_first_name
+    - field.field.node.vendor_or_subcontractor_registra.field_hear_about_nrel
+    - field.field.node.vendor_or_subcontractor_registra.field_intro_markup
+    - field.field.node.vendor_or_subcontractor_registra.field_keywords
+    - field.field.node.vendor_or_subcontractor_registra.field_last_name
+    - field.field.node.vendor_or_subcontractor_registra.field_naics_code_1
+    - field.field.node.vendor_or_subcontractor_registra.field_naics_code_2
+    - field.field.node.vendor_or_subcontractor_registra.field_naics_code_3
+    - field.field.node.vendor_or_subcontractor_registra.field_naics_markup
+    - field.field.node.vendor_or_subcontractor_registra.field_phone
+    - field.field.node.vendor_or_subcontractor_registra.field_products
+    - field.field.node.vendor_or_subcontractor_registra.field_reminder_sent
+    - field.field.node.vendor_or_subcontractor_registra.field_sam
+    - field.field.node.vendor_or_subcontractor_registra.field_website
+    - node.type.vendor_or_subcontractor_registra
+  module:
+    - user
+id: node.vendor_or_subcontractor_registra.teaser
+targetEntityType: node
+bundle: vendor_or_subcontractor_registra
+mode: teaser
+content:
+  links:
+    weight: 100
+    region: content
+  workbench_moderation_control:
+    weight: -20
+    region: content
+hidden:
+  field_address: true
+  field_business_type: true
+  field_certification_types: true
+  field_comments: true
+  field_edit_token: true
+  field_email: true
+  field_external_id: true
+  field_fax: true
+  field_first_name: true
+  field_hear_about_nrel: true
+  field_intro_markup: true
+  field_keywords: true
+  field_last_name: true
+  field_naics_code_1: true
+  field_naics_code_2: true
+  field_naics_code_3: true
+  field_naics_markup: true
+  field_phone: true
+  field_products: true
+  field_reminder_sent: true
+  field_sam: true
+  field_website: true

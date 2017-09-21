@@ -1,0 +1,29 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - options
+id: node.field_certification_types
+field_name: field_certification_types
+entity_type: node
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: '1'
+      label: 'I am a SBA certified Small Disadvantaged Business'
+    -
+      value: '2'
+      label: 'I am a SBA certified HubZone Business'
+    -
+      value: '3'
+      label: 'I am a SBA certified 8(a) Business'
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

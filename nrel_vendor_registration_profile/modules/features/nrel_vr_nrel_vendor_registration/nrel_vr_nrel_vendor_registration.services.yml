@@ -1,0 +1,19 @@
+services:
+  nrel_vr_nrel_vendor_registration.route_subscriber:
+    class: Drupal\nrel_vr_nrel_vendor_registration\Routing\RouteSubscriber
+    tags:
+      - { name: event_subscriber }
+  nrel_vr_nrel_vendor_registration.access_checker:
+    class: Drupal\nrel_vr_nrel_vendor_registration\Access\RevisionAccessCheck
+    arguments: ['@current_user', '@current_route_match']
+    tags:
+      - { name: access_check, applies_to: _revision_access_check }
+  nrel_vr_nrel_vendor_registration.init_subscriber:
+    class: Drupal\nrel_vr_nrel_vendor_registration\EventSubscriber\NrelEventSubscriber
+    tags:
+      - { name: event_subscriber }
+  nrel_vr_nrel_vendor_registration.breadcrumb:
+    class: Drupal\nrel_vr_nrel_vendor_registration\Breadcrumb\NrelBreadcrumbBuilder
+    tags:
+      - { name: breadcrumb_builder, priority: 100 }
+

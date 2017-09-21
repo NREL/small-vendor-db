@@ -1,0 +1,20 @@
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: j5zLMOdJBqC0bMvSdth5UebkprJB8g_2FXHqhfpJzow
+id: anonymous
+label: 'Anonymous user'
+weight: 0
+is_admin: false
+permissions:
+  - 'access content'
+  - 'access site-wide contact form'
+  - 'create vendor_or_subcontractor_registra content'
+  - 'generate lorem ipsum'
+  - 'use draft_needs_review transition'
+  - 'use text format restricted_html'
+  - 'view any unpublished content'
+  - 'view latest version'
+  - 'view media'
+  - 'view moderation states'

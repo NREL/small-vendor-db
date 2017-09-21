@@ -1,0 +1,25 @@
+tr.color-red,
+tr.color-red a {
+  color: red;
+}
+
+
+.toolbar-icon[data-drupal-link-system-path="admin/vendor-list"]:before {
+    background-image: url('/core/themes/stable/images/core/icons/787878/cog.svg');
+}
+
+#views-exposed-form-vendor-list-admin-page-1 #edit-actions,
+#views-exposed-form-vendor-list-admin-page-1 .form-item {
+  display: inline-block;
+  vertical-align: bottom;
+  float: none;
+  margin-bottom: 20px;
+}
+
+.view-vendor-list-admin.view-display-id-attachment_1 {
+  margin-bottom: 20px;
+}
+
+.nrel-config-form h2 {
+  margin-top: 30px;
+}

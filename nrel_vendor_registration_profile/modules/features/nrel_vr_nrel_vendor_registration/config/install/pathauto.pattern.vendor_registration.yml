@@ -1,0 +1,21 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: vendor_registration
+label: 'Vendor Registration'
+type: 'canonical_entities:node'
+pattern: '[node:title]'
+selection_criteria:
+  1c64a84e-8394-4485-8664-8dd4200bba70:
+    id: node_type
+    bundles:
+      vendor_or_subcontractor_registra: vendor_or_subcontractor_registra
+    negate: false
+    context_mapping:
+      node: node
+    uuid: 1c64a84e-8394-4485-8664-8dd4200bba70
+selection_logic: and
+weight: -5
+relationships: {  }

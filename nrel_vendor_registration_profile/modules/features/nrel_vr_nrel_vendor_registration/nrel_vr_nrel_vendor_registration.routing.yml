@@ -1,0 +1,11 @@
+
+nrel_vr_nrel_vendor_registration.nrel_config_form:
+  path: '/admin/config/nrel_vr_nrel_vendor_registration/nrelconfig'
+  defaults:
+    _form: '\Drupal\nrel_vr_nrel_vendor_registration\Form\NrelConfigForm'
+    _title: 'NrelConfigForm'
+  requirements:
+    _permission: 'access administration pages'
+  options:
+    _admin_route: TRUE
+

@@ -1,0 +1,28 @@
+<?php
+/**
+ * @file
+ * Bootstrap sub-theme.
+ *
+ * Place your custom PHP code in this file.
+ */
+
+function nrel_vendor_theme_theme_suggestions_block_alter(&$suggestions, $variables) {
+  foreach ($suggestions as &$suggestion) {
+    $suggestion = str_replace('nrel_vendor_theme_', '', $suggestion);
+  }
+}
+
+function nrel_vendor_theme_preprocess_page(&$vars) {
+  $path = \Drupal::request()->getpathInfo();
+  if ($path == '/node/add/vendor_or_subcontractor_registra') {
+    $vars['title'] = 'Small Business Vendor or Subcontractor Registration';
+  }
+  $vars['base_theme_path'] = '/' . drupal_get_path('theme', 'nrel_bootstrap');
+}
+
+function nrel_vendor_theme_preprocess_field(&$variables, $hook) {
+  $element = $variables['element'];
+  if (isset($element['#field_name']) && $element['#field_name'] == 'field_sam') {
+    $variables['label'] = "Registered in SAM.gov";
+  }
+}

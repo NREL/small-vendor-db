@@ -1,0 +1,260 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - options
+id: node.field_products
+field_name: field_products
+entity_type: node
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: '88'
+      label: 'A&E Services'
+    -
+      value: '89'
+      label: 'Accommodation & Food Services'
+    -
+      value: '90'
+      label: 'Accounting Services'
+    -
+      value: '91'
+      label: 'Administrative - Staffing & Placement Services'
+    -
+      value: '92'
+      label: 'Administrative & Support Services'
+    -
+      value: '93'
+      label: 'Advertising Services'
+    -
+      value: '94'
+      label: 'Advertising Services - Displays'
+    -
+      value: '95'
+      label: Agriculture
+    -
+      value: '96'
+      label: 'Arts, Environmental, & Recreation'
+    -
+      value: '97'
+      label: 'Audio & Video Equipment'
+    -
+      value: '98'
+      label: Commissioning
+    -
+      value: '99'
+      label: 'Computer Hardware Supply & Services'
+    -
+      value: '100'
+      label: 'Computer Printer Supply & Services'
+    -
+      value: '101'
+      label: 'Computer Software Supply & Services'
+    -
+      value: '102'
+      label: Construction
+    -
+      value: '103'
+      label: 'Crane Services'
+    -
+      value: '104'
+      label: 'Design Services - Graphic'
+    -
+      value: '105'
+      label: 'Design Services - Specialized'
+    -
+      value: '106'
+      label: Education
+    -
+      value: '107'
+      label: 'Electronic Component Products & Services'
+    -
+      value: '108'
+      label: 'Elevator Repair Services'
+    -
+      value: '109'
+      label: 'Engineering Services'
+    -
+      value: '110'
+      label: 'Environmental Consulting Services'
+    -
+      value: '111'
+      label: 'Event - Promotional'
+    -
+      value: '112'
+      label: 'Event - Trophies & Awards'
+    -
+      value: '113'
+      label: 'Event Staging'
+    -
+      value: '114'
+      label: 'Finance & Insurance Services'
+    -
+      value: '115'
+      label: 'Fire Protection'
+    -
+      value: '116'
+      label: 'Furniture Installation'
+    -
+      value: '117'
+      label: 'Geophysical Surveying Services'
+    -
+      value: '118'
+      label: 'Graphic Design Services'
+    -
+      value: '119'
+      label: 'Health & Social Services'
+    -
+      value: '120'
+      label: 'Human Resources'
+    -
+      value: '121'
+      label: 'Information Services'
+    -
+      value: '122'
+      label: 'Janitorial Services/Custodial'
+    -
+      value: '123'
+      label: 'Laboratory Furnishings & Equipment'
+    -
+      value: '124'
+      label: 'Laboratory Supply Products & Services'
+    -
+      value: '125'
+      label: 'Landscape and Snow removal Services'
+    -
+      value: '126'
+      label: 'Legal Services'
+    -
+      value: '127'
+      label: 'Machine - Manufacturing'
+    -
+      value: '128'
+      label: 'Machine - Metalworking'
+    -
+      value: '129'
+      label: 'Machine Manufacturing - General Purpose'
+    -
+      value: '130'
+      label: 'Machine Shop Products & Services'
+    -
+      value: '131'
+      label: 'Management, Scientific & Technical Consulting Services'
+    -
+      value: '132'
+      label: Marketing
+    -
+      value: '133'
+      label: Mining
+    -
+      value: '134'
+      label: 'Moving & Storage'
+    -
+      value: '135'
+      label: 'Office Furniture'
+    -
+      value: '136'
+      label: 'Office Supply Products & Services'
+    -
+      value: '168'
+      label: OTHER
+    -
+      value: '137'
+      label: 'Pest Control Services'
+    -
+      value: '138'
+      label: 'Photography Services'
+    -
+      value: '139'
+      label: 'Printing Services'
+    -
+      value: '140'
+      label: 'Professional, Scientific & Technical Services'
+    -
+      value: '141'
+      label: 'Public Administration'
+    -
+      value: '142'
+      label: 'Real Estate & Rental & Leasing'
+    -
+      value: '143'
+      label: 'Record Retention'
+    -
+      value: '144'
+      label: 'Recycling Services'
+    -
+      value: '145'
+      label: 'Repair & Maintenance'
+    -
+      value: '146'
+      label: 'Scientific Research & Development Services'
+    -
+      value: '148'
+      label: 'Security Services'
+    -
+      value: '149'
+      label: 'Semiconductor & Other Electronic Components'
+    -
+      value: '150'
+      label: Signage
+    -
+      value: '151'
+      label: 'Soil Testing'
+    -
+      value: '152'
+      label: 'Technology Management Services'
+    -
+      value: '153'
+      label: Telecommunications
+    -
+      value: '154'
+      label: 'Translation & Interpretation Services'
+    -
+      value: '155'
+      label: Transportation
+    -
+      value: '156'
+      label: 'Transportation Technology'
+    -
+      value: '157'
+      label: 'Travel Services'
+    -
+      value: '158'
+      label: Utilities
+    -
+      value: '159'
+      label: 'Vending Machine Services'
+    -
+      value: '160'
+      label: 'Ventilation, Heating, Air Conditioning'
+    -
+      value: '161'
+      label: 'Warehousing & Storage'
+    -
+      value: '162'
+      label: 'Waste Collection - Hazardous'
+    -
+      value: '163'
+      label: 'Waste Collection/Disposal'
+    -
+      value: '164'
+      label: 'Waste Management & Remediation Services'
+    -
+      value: '165'
+      label: 'Wholesale & Retail Trade Services'
+    -
+      value: '166'
+      label: 'Writing - Professional'
+    -
+      value: '167'
+      label: 'Writing - Technical & Editing'
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 50
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

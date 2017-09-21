@@ -1,0 +1,20 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_products
+    - node.type.vendor_or_subcontractor_registra
+  module:
+    - options
+id: node.vendor_or_subcontractor_registra.field_products
+field_name: field_products
+entity_type: node
+bundle: vendor_or_subcontractor_registra
+label: 'Principal Products or Services'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

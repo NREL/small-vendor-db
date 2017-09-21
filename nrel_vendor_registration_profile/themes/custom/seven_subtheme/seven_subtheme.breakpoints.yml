@@ -1,0 +1,12 @@
+seven_subtheme.mobile:
+  label: mobile
+  mediaQuery: '(min-width: 0em)'
+  weight: 0
+  multipliers:
+    - 1x
+seven_subtheme.wide:
+  label: wide
+  mediaQuery: 'screen and (min-width: 40em)'
+  weight: 1
+  multipliers:
+    - 1x

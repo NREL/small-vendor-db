@@ -1,0 +1,7 @@
+langcode: en
+status: true
+dependencies: {  }
+id: vendor_or_subcontractor_registra_reviewer
+label: 'Vendor or Subcontractor Registration reviewer'
+weight: 11
+is_admin: null

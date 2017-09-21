@@ -1,0 +1,385 @@
+<?php
+
+/**
+ * @file
+ * Contains nrel_vr_nrel_vendor_registration.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function nrel_vr_nrel_vendor_registration_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the nrel_vr_nrel_vendor_registration module.
+    case 'help.page.nrel_vr_nrel_vendor_registration':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Custom functionality for NREL Vendor Registration') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_form_alter
+ */
+function nrel_vr_nrel_vendor_registration_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+  if ($form_id == 'node_vendor_or_subcontractor_registra_form' || $form_id == 'node_vendor_or_subcontractor_registra_edit_form') {
+    if (\Drupal::currentUser()->isAnonymous()) {
+      $form['moderation_state']['widget'][0]['#default_value'] = 'needs_review';
+      $form['moderation_state']['#access'] = FALSE;
+    }
+    // add the form reset button
+    $form['actions']['submit']['#suffix'] = '<a href="#" id="form-reset" class="btn btn-success">Reset</a>';
+    foreach (array_keys($form['actions']) as $action) {
+      if ($action != 'preview' && isset($form['actions'][$action]['#type']) && $form['actions'][$action]['#type'] === 'submit') {
+        $form['actions'][$action]['#submit'][] = 'nrel_vr_nrel_vendor_registration_custom_messages';
+      }
+    }
+  }
+}
+
+/**
+ * Default cron-function, configurable through /admin/config/system/cron.
+ */
+function nrel_vr_nrel_vendor_registration_cron() {
+  $last_run = \Drupal::state()->get('nrel_vr_nrel_vendor_registration.last_run', 0);
+
+  // If 24 hours passed since last time.
+  if ((REQUEST_TIME - $last_run) > 86400) {
+
+    // query for nodes with 365 days since last reminder sent
+    // in order to send yearly reminder
+    $date = new Drupal\Core\Datetime\DrupalDateTime('365 days ago');
+    $date->setTimezone(new \DateTimezone(DATETIME_STORAGE_TIMEZONE));
+    $date_formatted = $date->format(DATETIME_DATETIME_STORAGE_FORMAT);
+
+    $nids = \Drupal::entityQuery('node')
+      ->condition('type','vendor_or_subcontractor_registra')
+      ->condition('status', 1)
+      ->condition('field_reminder_sent',$date_formatted,'<=')
+      ->execute();
+    $nodes = \Drupal\node\Entity\Node::loadMultiple($nids);
+
+    // get subject and body from custom config
+    $config = \Drupal::config('nrel_vr_nrel_vendor_registration.nrelconfig');
+    $email_subject = $config->get('yearly_email_subject');
+    $email_body = $config->get('yearly_email_body');
+    $token_service = \Drupal::token();
+
+    $count = 0;
+    foreach ($nodes AS $node) {
+      $random_key = md5(uniqid(rand(), true));
+      $node->set('field_edit_token', $random_key);
+      $node->set('field_reminder_sent', date('Y-m-d\TH:i:s', time()));
+      $node->setNewRevision(FALSE); // we don't want to create revisions for this
+      $node->save();
+
+      // build edit url
+      $options = array(
+        'absolute' => TRUE,
+        'query' => array(
+          'edit_token' => $random_key
+        ),
+      );
+
+      $url = Drupal\Core\Url::fromRoute('entity.node.edit_form', ['node' => $node->id()], $options);
+
+      // replace tokens
+      $new_email_subject = $token_service->replace($email_subject, array('node' => $node));
+      $new_email_body = str_replace('[node:edit-url]', $url->toString(), $email_body); // this replacement has to be custom
+      $new_email_body = $token_service->replace($new_email_body, array('node' => $node));
+
+      // prepare and send email
+      $mailManager = \Drupal::service('plugin.manager.mail');
+      $module = 'nrel_vr_nrel_vendor_registration';
+      $key = 'yearly_email';
+      $to = $node->field_email->value;
+      $params['message'] = $new_email_body;
+      $params['subject'] = $new_email_subject;
+      $langcode = \Drupal::currentUser()->getPreferredLangcode();
+      //$result = $mailManager->mail($module, $key, $to, $langcode, $params, NULL, TRUE); // commented out until on prod
+
+      \Drupal::logger('nrel_vr_nrel_vendor_registration')->notice('Sent yearly email to ' . $node->field_email->value . ' for ' . $node->getTitle());
+      $count++;
+    }
+    \Drupal::logger('nrel_vr_nrel_vendor_registration')->notice('Sent yearly email to a total of ' . $count . ' vendors');
+
+
+    // query for nodes with 2 weeks since last
+    // in order to remove edit_token
+    $date = new Drupal\Core\Datetime\DrupalDateTime('14 days ago');
+    $date->setTimezone(new \DateTimezone(DATETIME_STORAGE_TIMEZONE));
+    $date_formatted = $date->format(DATETIME_DATETIME_STORAGE_FORMAT);
+
+    $nids = \Drupal::entityQuery('node')
+      ->condition('type', 'vendor_or_subcontractor_registra')
+      ->condition('status', 1)
+      ->condition('field_reminder_sent', $date_formatted, '<=')
+      ->condition('field_edit_token', '', '!=')
+      ->execute();
+    $nodes = \Drupal\node\Entity\Node::loadMultiple($nids);
+    $count = 0;
+    foreach ($nodes AS $node) {
+      if ($node->get('field_edit_token')->getString() <> '') {
+        $node->set('field_edit_token', NULL);
+        $node->setNewRevision(FALSE); // we don't want to create revisions for this
+        $node->save();
+        $count++;
+      }
+    }
+    \Drupal::logger('nrel_vr_nrel_vendor_registration')->notice('Reset edit tokens on ' . $count . ' vendors');
+
+    \Drupal::state()->set('nrel_vr_nrel_vendor_registration.last_run', REQUEST_TIME);
+  }
+}
+
+/**
+ * Never forget to include the below interfaces(AccountInterface & NodeInterface) and an abstract class AccessResult
+ */
+
+use Drupal\Core\Session\AccountInterface;
+use Drupal\node\NodeInterface;
+use Drupal\Core\Access\AccessResult;
+use Drupal\communications\CommunicationsNetwork as CommNet;
+
+/**
+ * Implements hook_node_access().
+ */
+function nrel_vr_nrel_vendor_registration_node_access(NodeInterface $node, $operation, AccountInterface $account) {
+  $type = $node->bundle();
+
+  // set session variable based on query string
+  if (isset($_REQUEST['edit_token'])) {
+    $_SESSION['edit_token'] = $_REQUEST['edit_token']; // should convert to tempstore
+  }
+
+  if ($type == 'vendor_or_subcontractor_registra') {
+    if ($operation == 'view') {
+      if (CommNet::communications_network_is_internal()) {
+        return AccessResult::allowed();
+      }
+    }
+    if ($operation == 'update' || $operation == 'view') {
+      if (Drupal::flood()->isAllowed('failed_vendor_access', 10, 3600) && (($account->hasPermission('edit any ' . $type . ' content', $account)) || (isset($_SESSION['edit_token']) && $_SESSION['edit_token'] == $node->field_edit_token->value))) {
+        \Drupal::flood()->clear('failed_vendor_access'); // clear failed attempts
+        return AccessResult::allowed();
+      } else {
+        // register flood event to prevent brute force attempts
+        // defaults to current user ip address
+        \Drupal::flood()->register('failed_vendor_access', 3600);
+      }
+    }
+    return AccessResult::forbidden();
+  }
+}
+
+/**
+ * Implements hook_node_view().
+ */
+function nrel_vr_nrel_vendor_registration_node_view(array &$build, NodeInterface $node, $display, $view_mode) {
+  // if edit_token session is set we turn off caching for anonymous users
+  if ($node->getType() == 'vendor_or_subcontractor_registra' && isset($_SESSION['edit_token'])) {
+    $build['#cache']['max-age'] = 0;
+    \Drupal::service('page_cache_kill_switch')->trigger();
+  }
+}
+
+/**
+ * Implements hook_mail().
+ */
+function nrel_vr_nrel_vendor_registration_mail($key, &$message, $params) {
+  $options = array(
+    'langcode' => $message['langcode'],
+  );
+  $message['from'] = \Drupal::config('system.site')->get('mail');
+  $message['subject'] = $params['subject'];
+  $message['body'][] = $params['message'];
+}
+
+/**
+ * Implements hook_node_presave().
+ */
+function nrel_vr_nrel_vendor_registration_node_presave(Drupal\Core\Entity\EntityInterface $node) {
+  if ($node->getType() == 'vendor_or_subcontractor_registra') {
+    if (\Drupal::currentUser()->isAnonymous()) {
+
+      // reset reminder date and last edited date
+      $node->set('field_reminder_sent', date('Y-m-d\TH:i:s', time()));
+      $node->set('field_last_edited', date('Y-m-d\TH:i:s', time()));
+
+      // if node is new, set field_edit_token
+      if ($node->isNew()) {
+        $random_key = md5(uniqid(rand(), true));
+        $node->set('field_edit_token', $random_key);
+        // $_SESSION['edit_token'] = $random_key; // RE-ENABLE TO ALLOW ANONYMOUS USERS TO EDIT DIRECTLY AFTER SUBMITTING
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_node_update().
+ */
+function nrel_vr_nrel_vendor_registration_node_update(\Drupal\Core\Entity\EntityInterface $node) {
+  if ($node->getType() == 'vendor_or_subcontractor_registra' && \Drupal::currentUser()->isAnonymous()) {
+    if (!empty($node->original)) {
+      $old_status = $node->original->get('moderation_state')->getString();
+      $new_status = $node->get('moderation_state')->getString();
+
+      // get session info
+      $tempstore = \Drupal::service('user.private_tempstore')->get('nrel_vr_nrel_vendor_registration');
+      $sent_email = $tempstore->get('sent_notification_email');
+
+      if ($new_status == 'needs_review' && $old_status <> 'needs_review' && !isset($sent_email)) {
+        $tempstore->set('sent_notification_email', 1); // we only want to send emails on first edit, this provides additional assurance of this
+        nrel_vr_nrel_vendor_registration_moderation_notifications($node, 'updated');
+        nrel_vr_nrel_vendor_registration_confirmation_notification($node);
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_node_insert().
+ */
+function nrel_vr_nrel_vendor_registration_node_insert(\Drupal\Core\Entity\EntityInterface $node) {
+  global $install_state;
+  if (isset($install_state['parameters'])) {
+    return;
+  }
+  if ($node->getType() == 'vendor_or_subcontractor_registra' && \Drupal::currentUser()->isAnonymous()) {
+    $tempstore = \Drupal::service('user.private_tempstore')->get('nrel_vr_nrel_vendor_registration');
+    $sent_email = $tempstore->get('sent_notification_email');
+    if (!isset($sent_email)) {
+      $tempstore->set('sent_notification_email', 1);
+      nrel_vr_nrel_vendor_registration_confirmation_notification($node);
+      nrel_vr_nrel_vendor_registration_moderation_notifications($node);
+    }
+  }
+}
+
+/**
+ * Custom node submit handler to remove default status message and set our custom message
+ */
+function nrel_vr_nrel_vendor_registration_custom_messages(&$form, \Drupal\Core\Form\FormStateInterface $form_state) {
+
+  if (\Drupal::currentUser()->isAnonymous()) {
+    // Array of messages to remove using their first few words
+    $message_removal = array(
+      'Vendor or Subcontractor Registration',
+    );
+
+    // Remove all of the messages that match conditions
+    if (isset($_SESSION['messages'])) {
+      foreach ($_SESSION['messages'] as $status => $message_array) {
+        foreach ($_SESSION['messages'][$status] as $key => $value) {
+          foreach ($message_removal as $message) {
+            if (strpos($value, $message) === 0) {
+              unset($_SESSION['messages'][$status][$key]);
+            }
+          }
+        }
+
+        // Clean up the $_SESSION array to prevent empty messages from printing to screen
+        if (empty($_SESSION['messages'][$status])) {
+          unset($_SESSION['messages'][$status]);
+        }
+      }
+    }
+
+    // set custom message
+    $rendered_message = \Drupal\Core\Render\Markup::create('<h3>Thank you.</h3><p>Your registration has been submitted and will be considered for future solicitations.</p><p>Thank you for your interest in doing business with NREL.</p>');
+    drupal_set_message($rendered_message);
+  }
+}
+
+/**
+ * Custom function used to send confirmation_emails to applicants
+ */
+function nrel_vr_nrel_vendor_registration_confirmation_notification($node) {
+
+  // prepare email
+  $mailManager = \Drupal::service('plugin.manager.mail');
+  $module = 'nrel_vr_nrel_vendor_registration';
+  $key = 'confirmation_email';
+
+  // get subject and body from custom config
+  $config = \Drupal::config('nrel_vr_nrel_vendor_registration.nrelconfig');
+  $email_subject = $config->get('registration_confirmation_email_subject');
+  $email_body = $config->get('registration_confirmation_email_body');
+
+  // replace tokens
+  $token_service = \Drupal::token();
+  $new_email_subject = $token_service->replace($email_subject, array('node' => $node));
+  $new_email_body = $token_service->replace($email_body, array('node' => $node));
+
+  $params['message'] = $new_email_body;
+  $params['subject'] = $new_email_subject;
+  $langcode = \Drupal::currentUser()->getPreferredLangcode();
+
+  $to = $node->field_email->value;
+  $result = $mailManager->mail($module, $key, $to, $langcode, $params, NULL, TRUE);
+
+  \Drupal::logger($module)->notice('Sent confirmation notification email to ' . $node->field_email->value . ' for ' . $node->getTitle());
+}
+
+/**
+ * Custom function used to send moderation notifications
+ */
+function nrel_vr_nrel_vendor_registration_moderation_notifications($node) {
+
+  // get reviewer users by role
+  $uids = \Drupal::entityQuery('user')
+    ->condition('status', 1)
+    ->condition('roles', 'vendor_or_subcontractor_registra_reviewer')
+    ->execute();
+  $users = \Drupal\user\Entity\User::loadMultiple($uids);
+
+  // prepare email
+  $mailManager = \Drupal::service('plugin.manager.mail');
+  $module = 'nrel_vr_nrel_vendor_registration';
+  $key = 'moderation_email';
+
+  // get subject and body from custom config
+  $config = \Drupal::config('nrel_vr_nrel_vendor_registration.nrelconfig');
+  $email_subject = $config->get('admin_moderation_email_subject');
+  $email_body = $config->get('admin_moderation_email_body');
+
+  // replace tokens
+  $token_service = \Drupal::token();
+  $new_email_subject = $token_service->replace($email_subject, array('node' => $node));
+  $new_email_body = $token_service->replace($email_body, array('node' => $node));
+
+  $params['message'] = $new_email_body;
+  $params['subject'] = $new_email_subject;
+  $langcode = \Drupal::currentUser()->getPreferredLangcode();
+
+  // loop through users and send email
+  foreach ($users AS $user) {
+    $to = $user->getEmail();
+    $result = $mailManager->mail($module, $key, $to, $langcode, $params, NULL, TRUE);
+  }
+
+  \Drupal::logger($module)->notice('Sent moderation notification emails for ' . $node->getTitle());
+}
+
+/**
+ * Custom function used to check if user is admin
+ */
+function nrel_vr_nrel_vendor_registration_user_is_admin() {
+  $account = \Drupal::currentUser();
+  $allowed_roles = array(
+    'administrator',
+    'vendor_or_subcontractor_registra_creator',
+    'vendor_or_subcontractor_registra_reviewer',
+    'developer',
+  );
+  if (array_intersect($allowed_roles, $account->getRoles())) {
+    return TRUE;
+  }
+  return FALSE;
+}

@@ -1,0 +1,7 @@
+nrel_vr_nrel_vendor_registration.nrel_config_form:
+  title: 'NREL Custom Configuration'
+  route_name: nrel_vr_nrel_vendor_registration.nrel_config_form
+  description: 'Custom configuration settings for NREL'
+  parent: system.admin_config_system
+  weight: 99
+

@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_hear_about_nrel
+    - node.type.vendor_or_subcontractor_registra
+id: node.vendor_or_subcontractor_registra.field_hear_about_nrel
+field_name: field_hear_about_nrel
+entity_type: node
+bundle: vendor_or_subcontractor_registra
+label: 'Where did you hear about NREL''s Small Business Vendor Database?'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

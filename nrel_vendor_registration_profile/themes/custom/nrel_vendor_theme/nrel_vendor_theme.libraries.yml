@@ -1,0 +1,10 @@
+custom-styling:
+  css:
+    theme:
+      css/style.css: {}
+      js/bootstrap-select/dist/css/bootstrap-select.min.css: {}
+
+custom-scripts:
+  js:
+    js/bootstrap-select/js/bootstrap-select.js: {}
+    js/nrel_vendor_theme.js: {}

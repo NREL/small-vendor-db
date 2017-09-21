@@ -1,0 +1,47 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - options
+id: node.field_business_type
+field_name: field_business_type
+entity_type: node
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: '1'
+      label: Small
+    -
+      value: '2'
+      label: 'Small Disadvantaged - SBA Certified'
+    -
+      value: '8'
+      label: 'Small Disadvantaged - Self Certified'
+    -
+      value: '3'
+      label: 'Women Owned'
+    -
+      value: '4'
+      label: HUBZone
+    -
+      value: '5'
+      label: 'Veteran Owned'
+    -
+      value: '6'
+      label: 'Service Disabled Veteran Owned'
+    -
+      value: '7'
+      label: 8(a)
+    -
+      value: '9'
+      label: 'Other Than Small Business'
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

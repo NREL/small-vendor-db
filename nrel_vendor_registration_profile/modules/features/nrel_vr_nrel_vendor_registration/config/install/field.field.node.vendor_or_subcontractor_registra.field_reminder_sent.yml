@@ -1,0 +1,23 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_reminder_sent
+    - node.type.vendor_or_subcontractor_registra
+  module:
+    - datetime
+id: node.vendor_or_subcontractor_registra.field_reminder_sent
+field_name: field_reminder_sent
+entity_type: node
+bundle: vendor_or_subcontractor_registra
+label: 'Reminder Sent'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    default_date_type: now
+    default_date: now
+default_value_callback: ''
+settings: {  }
+field_type: datetime

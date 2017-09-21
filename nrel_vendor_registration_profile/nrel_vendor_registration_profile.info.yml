@@ -1,0 +1,21 @@
+name: 'NREL Vendor Registration Profile'
+type: profile
+description: 'NREL Vendor Registration communications subprofile'
+core: '8.x'
+# Optional: Declare your installation profile as a distribution
+# This will make the installer auto-select this installation profile.
+# The distribution_name property is used in the installer and other places as
+# a label for the software being installed.
+distribution:
+  name: NREL Vendor Registration Profile
+# Required modules
+dependencies:
+  - address
+  - conditional_fields
+  - markup
+themes:
+  - nrel_vendor_theme
+  - seven_subtheme
+base profile:
+  name: communications
+version: '8.x-1.0'

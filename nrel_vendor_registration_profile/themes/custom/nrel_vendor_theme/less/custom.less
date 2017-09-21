@@ -1,0 +1,211 @@
+// insert custom styling
+
+.border-bottom {
+  margin-bottom: 30px;
+  padding-bottom: 30px;
+  border-bottom: 1px solid #ddd;
+}
+
+.toolbar-icon[data-drupal-link-system-path="admin/vendor-list"]:before {
+  background-image: url('/core/themes/stable/images/core/icons/787878/cog.svg');
+}
+
+@brand-primary: #e07700;
+
+.form-h2 {
+  font-weight: 300;
+  color: @brand-primary;
+  font-size: 30px;
+  border: none;
+  padding: 0;
+  font-family: "Roboto";
+}
+
+.main-container {
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
+.node-vendor-or-subcontractor-registra-form.node-form,
+.node-vendor-or-subcontractor-registra-edit-form.node-form {
+  .bootstrap-select button.dropdown-toggle {
+    text-transform: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-image: linear-gradient(#FFF, #E6E6E6);
+    box-shadow: inset 0 1px #FFF, inset 0 0 0 1px rgba(255, 255, 255, 0.5), 0 1px 2px rgba(0, 0, 0, 0.1);
+    .bs-caret {
+      display: none;
+    }
+    &:after {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      content: '\e114';
+      display: inline-block;
+      font-family: 'Glyphicons Halflings';
+      color: rgb(51, 122, 183);
+      font-style: normal;
+      font-weight: 400;
+      line-height: 1;
+      margin-top: -0.5em;
+      padding-right: 0.5em;
+      pointer-events: none;
+      position: absolute;
+      right: 0px;
+      top: 50%;
+      z-index: 10;
+    }
+  }
+  .form-required:after {
+    background-image: none;
+    content: "*";
+    display: inline-block;
+    line-height: 1;
+    height: auto;
+    width: auto;
+    color: @brand-primary;
+  }
+  #edit-field-address-wrapper {
+    .panel-default {
+      padding: 0;
+      border: none;
+      .panel-heading {
+        display: none;
+      }
+      .panel-body {
+        border: none;
+        padding: 0;
+      }
+    }
+    #edit-field-address-0-address-container0,
+    #edit-field-address-0-address-country-code {
+      display: none;
+    }
+  }
+  .group-wrapper {
+    margin-bottom: 15px;
+    .border-bottom;
+  }
+  .form-inline {
+    .control-label,
+    .form-control {
+      display: block;
+      width: 100%;
+    }
+  }
+  #edit-field-products-wrapper,
+  #edit-field-hear-about-nrel-wrapper,
+  #edit-field-comments-wrapper {
+    label {
+      .form-h2;
+    }
+  }
+  #edit-field-business-type-wrapper,
+  #edit-field-certification-types-wrapper {
+    legend {
+      .form-h2;
+      margin-bottom: 0;
+    }
+  }
+  #edit-field-products-wrapper {
+    margin-bottom: 45px;
+  }
+  #edit-field-hear-about-nrel-wrapper {
+    .border-bottom;
+  }
+}
+
+#node-vendor-or-subcontractor-registra-edit-form {
+  #edit-field-intro-markup-wrapper {
+    display: none;
+  }
+}
+
+.workbench-moderation-entity-moderation-form {
+  background-color: #dff0d8;
+  border: 1px solid #d6e9c6;
+  border-radius: 5px;
+  margin-top: 15px;
+  .entity-moderation-form {
+    border: none;
+    padding: 15px;
+    > li:first-child {
+      padding-bottom: 14px;
+      label {
+        display: block;
+      }
+    }
+  }
+}
+
+body:not(.user-logged-in) {
+  .workbench-moderation-entity-moderation-form {
+    display: none;
+  }
+  .form-item.form-type-vertical-tabs {
+    display: none; // hide revisions for anonymous users
+  }
+}
+
+.path-node.page-node-type-vendor-or-subcontractor-registra {
+  .field-section {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    &:last-child {
+      border-bottom: none;
+    }
+    .field--label {
+      .form-h2;
+    }
+  }
+  .field {
+    font-family: "Roboto";
+    &.field--label-inline,
+    &.field--label-above {
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 10px;
+      margin-bottom: 10px;
+      .field--label {
+        min-width: 210px;
+      }
+    }
+  }
+}
+
+#views-exposed-form-vendor-list-public-page-1 {
+  margin: 30px 0 30px;
+  .form-item {
+    display: inline-block;
+    vertical-align: bottom;
+    margin: 0 20px 15px 0;
+    label, .form-control {
+      display: block;
+    }
+  }
+  .form-actions {
+    display: inline-block;
+    vertical-align: bottom;
+    margin: 0 20px 15px 0;
+  }
+  @media (max-width: @screen-xs-max) {
+    .form-item {
+      display: block;
+      vertical-align: bottom;
+      margin: 0 0 15px 0;
+      .select-wrapper {
+        width: 100% !important;
+      }
+      label, .form-control {
+        display: block;
+        width: 100%;
+      }
+    }
+  }
+}
+
+.alert {
+  h3 {
+    margin-top: 0;
+  }
+}

@@ -1,0 +1,24 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_naics_markup
+    - node.type.vendor_or_subcontractor_registra
+  module:
+    - markup
+id: node.vendor_or_subcontractor_registra.field_naics_markup
+field_name: field_naics_markup
+entity_type: node
+bundle: vendor_or_subcontractor_registra
+label: 'NAICS Markup'
+description: ''
+required: false
+translatable: false
+default_value:
+  - {  }
+default_value_callback: ''
+settings:
+  markup:
+    value: "<p>Either type your numeric North American Industry Classification System NAICS code(s) into the appropriate box(es). If you have more than three NAICS codes, please stipulate in the \"Comments\" box below.</p>\r\n"
+    format: basic_html
+field_type: markup

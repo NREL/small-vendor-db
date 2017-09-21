@@ -1,0 +1,224 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall hooks for the nrel_vendor_registration_profile subprofile.
+ */
+
+use Drupal\Core\Entity\Entity\EntityViewDisplay;
+use Drupal\field\Entity\FieldConfig;
+use Drupal\user\Entity\User;
+use Drupal\user\RoleInterface;
+use Drupal\node\Entity\Node;
+
+/**
+ * Implements hook_install().
+ */
+function nrel_vendor_registration_profile_install() {
+  // Can add code in here to make nodes, terms, etc.
+  $modules = [
+    'redirect',
+    'nrel_vr_nrel_vendor_registration',
+    'admin_toolbar_tools'
+  ];
+
+  foreach ($modules as $module) {
+    \Drupal::service('module_installer')->install([$module]);
+  }
+
+  // content import
+  $rows = nrel_vendor_registration_import_combine_csvs();
+  nrel_vendor_registration_import_nodes($rows);
+
+  // Set the default and admin theme.
+  \Drupal::configFactory()
+    ->getEditable('system.theme')
+    ->set('default', 'nrel_vendor_theme')
+    ->set('admin', 'seven_subtheme')
+    ->save(TRUE);
+
+  // Set front page to "node".
+  \Drupal::configFactory()
+    ->getEditable('system.site')
+    ->set('page.front', '/node/add/vendor_or_subcontractor_registra')
+    ->save(TRUE);
+
+}
+
+function nrel_vendor_registration_import_combine_csvs() {
+
+  $path_to_profile = drupal_get_path('profile', 'nrel_vendor_registration_profile');
+  $filenames = [
+    'data_contacts.csv',
+    'join_contacts_certs.csv',
+    'join_contacts_keywords.csv',
+    'join_contacts_naics.csv',
+    'join_contacts_products.csv',
+    'join_contacts_types.csv',
+  ];
+
+  $all_rows = $header = array();
+  $last_filename = '';
+
+  ini_set('auto_detect_line_endings', TRUE);
+
+  // loop through files
+  $i = 0;
+  $error = FALSE;
+  $errors = '';
+  foreach ($filenames as $filename) {
+    $contentheader = NULL;
+    if (($handle = fopen("{$path_to_profile}/files/vendors/{$filename}", "r")) !== FALSE) {
+      while (($row = fgetcsv($handle, 100000, ",")) !== FALSE) {
+        $i++;
+        if ($contentheader === NULL) {
+          foreach($row as $item) {
+            $item = (string)strtolower(trim(preg_replace("/\xEF\xBB\xBF/", "", $item)));
+            if($contentheader === NULL || !in_array($item, $contentheader)) {
+              $contentheader[] = $item;
+            }
+          }
+          continue;
+        }
+        if (!is_numeric($row[0])) {
+          $errors .= 'Error at line ' . $i .' of ' . $filename . '<br/>';
+          $error = TRUE;
+        }
+        $append_rows = array_combine($contentheader, $row);
+        foreach ($append_rows as $append_key => $append_row) {
+          if(!isset($all_rows[$row[0]][$append_key])) {
+            if ($append_row <> 'NULL') {
+              $all_rows[$row[0]][$append_key] = array($append_row);
+            } else {
+              $all_rows[$row[0]][$append_key] = array();
+            }
+          } else {
+            if ($append_key != 'contact_id' && $append_row <> 'NULL') {
+              //ADD DUPLICATE ROW AS NEXT ITEM IN ARRAY
+              $all_rows[$row[0]][$append_key][] = $append_row;
+            }
+          }
+        }
+      }
+      fclose($handle);
+    }
+  }
+  if (!$error) {
+    return $all_rows;
+  } else {
+    echo $errors;
+    exit();
+  }
+}
+
+function nrel_vendor_registration_import_nodes($rows) {
+  $update_text = '';
+  $count = $existing_count = $new_count = 0;
+
+  foreach ($rows AS $row) {
+
+    if (isset($row['biz_name'][0]) && $row['biz_name'][0] != '') {
+
+      // comma separated keywords
+      if (isset($row['keyword'])) {
+        foreach($row['keyword'] as $key => $value) {
+          $sanitized_value = preg_replace("/[^\\x00-\\xFFFF]/", "", $value);
+          $sanitized_value = iconv('UTF-8', 'Windows-1252//TRANSLIT', $sanitized_value);
+          $row['keyword'][$key] = $sanitized_value;
+        }
+        $keywords = implode(', ', $row['keyword']);
+      }
+
+      // address
+      $address = array(
+        'address_line1' => $row['address_1'][0],
+        'address_line2' => (isset($row['address_2'][0]) ? $row['address_2'][0] : ''),
+        'postal_code' => $row['zip'][0],
+        'locality' => $row['city'][0],
+        'administrative_area' => $row['state'][0],
+        'country_code' => 'US',
+        'langcode' => 'en',
+      );
+
+      // websites
+      $valid_website = FALSE;
+      if (isset($row['website'][0])) {
+        $url = str_replace(' ', '', $row['website'][0]);
+        $url = filter_var($url, FILTER_SANITIZE_URL);
+        if ($url <> '' && !filter_var($url, FILTER_VALIDATE_URL) === false && substr_count($url, 'www') < 2 && substr_count($url, 'http://') < 2) {
+          $valid_website = TRUE;
+        }
+      }
+
+      // set reminder sent date. If data is blank it defaults to date applied
+      if (isset($row['reminder_sent'][0])) {
+        $reminder_sent = date('Y-m-d\TH:i:s', strtotime($row['reminder_sent'][0]));
+      } else {
+        $reminder_sent = date('Y-m-d\TH:i:s', strtotime($row['date_applied'][0]));
+      }
+
+      // set last edited date
+      if (isset($row['date_modified'][0])) {
+        $last_edited = date('Y-m-d\TH:i:s', strtotime($row['date_modified'][0]));
+      } else {
+        $last_edited = date('Y-m-d\TH:i:s', strtotime($row['date_applied'][0]));
+      }
+
+      // create array of field keys and values
+      $fields = array(
+        'type' => 'vendor_or_subcontractor_registra',
+        'title' => $row['biz_name'][0],
+        'field_address' => $address,
+        'field_email' => $row['email'][0],
+        'field_external_id' => $row['unique_id'][0],
+        'field_first_name' => $row['first_name'][0],
+        'field_last_name' => $row['last_name'][0],
+        'field_phone' => $row['phone'][0],
+        'field_reminder_sent' => $reminder_sent,
+        'field_last_edited' => $last_edited,
+        'field_comments' => (isset($row['comments'][0]) ? $row['comments'][0] : NULL),
+        'field_naics_code_1' => (isset($row['naics_id'][0]) ? $row['naics_id'][0] : NULL),
+        'field_naics_code_2' => (isset($row['naics_id'][1]) ? $row['naics_id'][1] : NULL),
+        'field_naics_code_3' => (isset($row['naics_id'][2]) ? $row['naics_id'][2] : NULL),
+        'field_hear_about_nrel' => (isset($row['hear_about_nrel'][0]) ? $row['hear_about_nrel'][0] : NULL),
+        'field_fax' => (isset($row['fax'][0]) ? $row['fax'][0] : NULL),
+        'field_sam' => (isset($row['sam'][0]) && $row['sam'][0] == 1 ? 1 : 0),
+        'field_website' => ($valid_website ? $url : NULL),
+        'field_keywords' => (isset($keywords) ? $keywords : NULL),
+        'field_business_type' => (isset($row['type_id']) ? $row['type_id'] : NULL),
+        'field_products' => (isset($row['product_id']) ? $row['product_id'] : NULL),
+        'field_certification_types' => (isset($row['cert_id']) ? $row['cert_id'] : NULL),
+      );
+
+      // query to find existing node with external id
+      $nid = \Drupal::entityQuery('node')
+      ->condition('type','vendor_or_subcontractor_registra')
+      ->condition('field_external_id', $row['unique_id'][0])
+      ->execute();
+
+      // ignore if node exists, else create new node
+      if ($nid) {
+        $existing_count++;
+      } else {
+        $node = Node::create($fields);
+        // status, created, and changed time
+        $node->setPublished($row['approved'][0]);
+        if ($row['approved'][0] == '1') {
+          $node->set('moderation_state', 'published');
+        } else {
+          $node->set('moderation_state', 'draft');
+        }
+        $node->setCreatedTime(strtotime($row['date_applied'][0]));
+        if (isset($row['date_modified'][0])) {
+          $node->setChangedTime(strtotime($row['date_modified'][0]));
+        } else {
+          $node->setChangedTime(strtotime($row['date_applied'][0]));
+        }
+        $new_count++;
+        $node->save();
+      }
+      $count++;
+    }
+  }
+  \Drupal::logger('nrel_vr_nrel_vendor_registration')->notice('NREL content import has been executed. ' . $count .' nodes processed. ' . $existing_count . ' exisiting nodes ignored. ' . $new_count .' new nodes created.');
+}

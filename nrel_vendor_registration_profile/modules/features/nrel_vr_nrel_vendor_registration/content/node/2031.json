@@ -1,0 +1,159 @@
+{
+    "_links": {
+        "self": {
+            "href": "http:\/\/default\/node\/2031?_format=hal_json"
+        },
+        "type": {
+            "href": "http:\/\/drupal.org\/rest\/type\/node\/page"
+        },
+        "http:\/\/drupal.org\/rest\/relation\/node\/page\/uid": [
+            {
+                "href": "http:\/\/default\/user\/1?_format=hal_json",
+                "lang": "en"
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/node\/page\/revision_uid": [
+            {
+                "href": "http:\/\/default\/user\/1?_format=hal_json"
+            }
+        ]
+    },
+    "nid": [
+        {
+            "value": 2031
+        }
+    ],
+    "uuid": [
+        {
+            "value": "634c5e93-91e6-4f62-b5d7-83b716059555"
+        }
+    ],
+    "vid": [
+        {
+            "value": 2168
+        }
+    ],
+    "langcode": [
+        {
+            "value": "en",
+            "lang": "en"
+        }
+    ],
+    "type": [
+        {
+            "target_id": "page"
+        }
+    ],
+    "status": [
+        {
+            "value": true,
+            "lang": "en"
+        }
+    ],
+    "title": [
+        {
+            "value": "Small Business Commitment",
+            "lang": "en"
+        }
+    ],
+    "_embedded": {
+        "http:\/\/drupal.org\/rest\/relation\/node\/page\/uid": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/default\/user\/1?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/user\/user"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "df020515-8aa8-4947-b712-f1ee001292e4"
+                    }
+                ],
+                "lang": "en"
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/node\/page\/revision_uid": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/default\/user\/1?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/user\/user"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "df020515-8aa8-4947-b712-f1ee001292e4"
+                    }
+                ]
+            }
+        ]
+    },
+    "created": [
+        {
+            "value": 1502291205,
+            "lang": "en"
+        }
+    ],
+    "changed": [
+        {
+            "value": 1502291275,
+            "lang": "en"
+        }
+    ],
+    "promote": [
+        {
+            "value": false,
+            "lang": "en"
+        }
+    ],
+    "sticky": [
+        {
+            "value": false,
+            "lang": "en"
+        }
+    ],
+    "revision_timestamp": [
+        {
+            "value": 1502291275
+        }
+    ],
+    "revision_translation_affected": [
+        {
+            "value": true,
+            "lang": "en"
+        }
+    ],
+    "default_langcode": [
+        {
+            "value": true,
+            "lang": "en"
+        }
+    ],
+    "moderation_state": [
+        {
+            "target_id": "published",
+            "lang": "en"
+        }
+    ],
+    "metatag": [
+        {
+            "value": {
+                "title": "| NREL Vendor Registration",
+                "description": "Central to NREL's mission is our commitment to small business through a comprehensive and mature outreach program that combines proven techniques with the latest technology and best business practices.\n\n\nFor More Information\n\nContact Us\n\nPlease email Rexann Dunn or call 303-275-4322 for more on NREL's small business commitment and opportunities."
+            }
+        }
+    ],
+    "body": [
+        {
+            "value": "<p class=\"lead\">Central to NREL's mission is our commitment to small business through a comprehensive and mature outreach program that combines proven techniques with the latest technology and best business practices.<\/p>\r\n\r\n<div class=\"well actionbox text-center\">\r\n<h2 class=\"green\">For More Information<\/h2>\r\n\r\n<div><a class=\"btn btn-success\" href=\"mailto:Rexann.dunn@nrel.gov\">Contact Us<\/a><\/div>\r\n\r\n<p style=\"margin-top: 0.8em;\">Please email <a href=\"mailto:Rexann.dunn@nrel.gov\">Rexann Dunn<\/a> or call 303-275-4322 for more on NREL's small business commitment and opportunities.<\/p>\r\n<\/div>\r\n\r\n<p>NREL's focus on small, small-disadvantaged, women-owned, HUBZone, veteran-owned, and disabled veteran-owned businesses extends far beyond the purchasing and subcontracting dollars which is an integral part of the high performance standards set forth in all areas of the laboratory. For example, prompt payment is a critical factor in the success of every small business. NREL's Finance Office works with the Procurement Office to establish payment terms that accommodate small business needs. Payment and deliverables tracking has been automated and placed on the Intranet to ensure rapid processing of invoices and subsequent payments.<\/p>\r\n\r\n<p>NREL continues its ongoing involvement with the small business community by sponsoring and participating in special events, trade fairs, and networking exchanges. NREL has been honored with several prestigious awards that include the 1998 Vision 2000 Award for Excellence in Advocacy, the Martin Luther King Jr. Business Social Responsibility Award, and the Dwight D. Eisenhower Award. On behalf of NREL, the Small Business Partnership Development Manager serves on the Board of Directors for the Opportunity Council. The manager also serves on the Colorado Women's Chamber of Commerce. Many of the NREL staff consistently dedicate their time in volunteering to serve on numerous small, small-disadvantaged, women-owned, HUBZone, veteran-owned, and disabled veteran-owned business events throughout the year.<\/p>\r\n\r\n<p>A further reflection of NREL's commitment to the small business community is through a workplace culture that embraces diversity. The Human Resources Office works cooperatively with the Contracts and Business Services Office and the Small Business Partnership Development Office in recruiting small businesses who in return supply temporary personnel throughout the laboratory. Additionally, NREL's&nbsp;<a href=\"https:\/\/www.nrel.gov\/workingwithus\/energy-education.html\">Workforce Development and Education Programs<\/a>&nbsp;develops and implements science programs that engage the minds of our future leaders, scientists, and engineers that ultimately increases the number of women and other minorities in science and engineering careers.<\/p>\r\n\r\n<p>Another key feature of NREL's commitment to small business concerns is through&nbsp;<a href=\"https:\/\/www.nrel.gov\/technologytransfer\/\">Technology Transfer<\/a>. NREL works with the U.S. Department of Energy (DOE) in processing Cooperative Research and Development Agreements and Strategic Partnership Projects agreements to build a better understanding of the market drivers for the renewable energy community. With the renewable energy market continuing to develop, small businesses that want to be competitive in the market place are bringing funds to NREL to support technology maturation and commercialization. NREL's commitment to small business makes it possible to build lasting and successful technology partnerships.<\/p>\r\n\r\n<p>NREL's commitment to small, small-disadvantaged, women-owned, HUBzone, veteran-owned and disabled veteran owned business has never been stronger. We will continue to set new standards for our research and performance standards that support our vision of a world that runs on clean, renewable energy technologies. The laboratory will continue to seek alliances with small businesses to help achieve that vision.<\/p>\r\n",
+            "format": "full_html",
+            "summary": "",
+            "lang": "en"
+        }
+    ]
+}
